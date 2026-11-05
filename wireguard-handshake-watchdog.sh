@@ -13,12 +13,12 @@ latest=$(wg show "$WIREGUARD_INTERFACE_NAME" latest-handshakes | awk 'BEGIN{m=0}
 if (( now - latest > WIREGUARD_HANDSHAKE_WATCHDOG_MAX_AGE )); then
     if [[ "$WIREGUARD_HANDSHAKE_WATCHDOG_MODE" == "0" ]]; then
         wg set "$WIREGUARD_INTERFACE_NAME" listen-port 0
-        logger -t wireguard-handshake-watchdog "$WIREGUARD_INTERFACE_NAME: handshake stale ($(( now - latest ))s), new listen-port $(wg show "$WIREGUARD_INTERFACE_NAME" listen-port)"
+        echo "$WIREGUARD_INTERFACE_NAME: handshake stale ($(( now - latest ))s), new listen-port $(wg show "$WIREGUARD_INTERFACE_NAME" listen-port)"
     elif [[ "$WIREGUARD_HANDSHAKE_WATCHDOG_MODE" == "1" ]]; then
         systemctl restart wg-quick@$WIREGUARD_INTERFACE_NAME
-        logger -t wireguard-handshake-watchdog "$WIREGUARD_INTERFACE_NAME restarted"
+        echo "$WIREGUARD_INTERFACE_NAME restarted"
     else
-        logger -t wireguard-handshake-watchdog "$WIREGUARD_HANDSHAKE_WATCHDOG_MODE is unknown WIREGUARD_HANDSHAKE_WATCHDOG_MODE!"
+        echo "$WIREGUARD_HANDSHAKE_WATCHDOG_MODE is unknown WIREGUARD_HANDSHAKE_WATCHDOG_MODE!"
         exit 1
     fi
 fi
