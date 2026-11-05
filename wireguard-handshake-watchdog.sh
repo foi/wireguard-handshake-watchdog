@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -eu
 WIREGUARD_INTERFACE_NAME="$1"
 
