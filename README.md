@@ -28,6 +28,7 @@ ConditionPathExists=/sys/class/net/%i
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/wireguard-handshake-watchdog.sh %i
+EnvironmentFile=-/etc/wireguard-handshake-watchdog/%i
 ```
 
 enable timer
